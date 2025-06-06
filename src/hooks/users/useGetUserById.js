@@ -4,7 +4,7 @@ import UserService from '@/service/UserService';
 
 export default function useGetUserById(id) {
   const {
-    data: userId,
+    data: user,
     isLoading,
     isError,
   } = useQuery({
@@ -13,5 +13,5 @@ export default function useGetUserById(id) {
     enabled: !!id,
   });
 
-  return { userId, isLoading, isError };
+  return { user, isLoading, isError };
 }

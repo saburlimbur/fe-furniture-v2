@@ -20,6 +20,19 @@ export default class AddressService {
         country,
       });
 
+      return result.data.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw new Error(error.response.data.message);
+      }
+      throw error; // fallback error
+    }
+  }
+
+  static async deleteAddressById(id) {
+    try {
+      const result = await AxiosInterceptor.delete(`/address/${id}`);
+
       return result.data;
     } catch (error) {
       if (error.response && error.response.data) {

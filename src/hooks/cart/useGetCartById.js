@@ -7,11 +7,12 @@ export default function useGetCartById(id) {
     data: cartId,
     isLoading,
     isError,
+    refetch,
   } = useQuery({
     queryKey: ['cartId', id],
     queryFn: () => CartService.getCartById(id),
     enabled: !!id,
   });
 
-  return { cartId, isLoading, isError };
+  return { cartId, isLoading, isError, refetch };
 }

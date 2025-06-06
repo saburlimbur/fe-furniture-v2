@@ -12,6 +12,8 @@ export default class OrderService {
         status,
       });
 
+      localStorage.setItem('order_data', JSON.stringify(result.data?.data));
+
       return result.data;
     } catch (error) {
       if (error.response && error.response.data) {
@@ -30,6 +32,23 @@ export default class OrderService {
         throw new Error(error.response.data.message);
       }
       throw error; // fallback error
+    }
+  }
+
+  static async updateOrder(payload) {
+    try {
+      const result = await AxiosInterceptor.put('/order', payload); // isi body dari BE
+
+      const updatedOrder = result.data?.data;
+      if (updatedOrder) {
+        localStorage.setItem('order_data', JSON.stringify(updatedOrder));
+      }
+
+      return updatedOrder;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw new Error(error.response.data.message);
+      }
     }
   }
 }

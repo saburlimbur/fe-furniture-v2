@@ -1,4 +1,8 @@
+/* eslint-disable react/jsx-curly-newline */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-nested-ternary */
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useFormik } from 'formik';
 
 import { Button } from '@/components/ui/button';
@@ -19,6 +23,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import useCreateAddress from '@/hooks/address/useCreateAddress';
+import useDeleteAddressById from '@/hooks/address/useDeleteAddressById';
 import addressSchema from '@/schema/AddressSchema';
 
 const countries = [
@@ -38,6 +43,7 @@ function AddressForm() {
   const [loading, setLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { createAddress } = useCreateAddress();
+  const { deleteAddress } = useDeleteAddressById();
 
   const user = JSON.parse(localStorage.getItem('furniture_user'));
   const userId = user?.id;
@@ -59,8 +65,9 @@ function AddressForm() {
 
       setLoading(true);
       try {
-        await createAddress(payload);
-        localStorage.setItem('address_data', JSON.stringify(payload));
+        const response = await createAddress(payload);
+        localStorage.setItem('address_data', JSON.stringify(response));
+
         setIsSubmitted(true); // agar readonly input nya
       } catch (err) {
         console.error('Create address error:', err);
@@ -78,6 +85,32 @@ function AddressForm() {
       setIsSubmitted(true);
     }
   }, []);
+
+  const handleDeleteAddress = async () => {
+    const saved = localStorage.getItem('address_data');
+    const address = saved ? JSON.parse(saved) : null;
+    const addressId = address?.id;
+
+    if (!addressId) {
+      toast.error('Address ID not found');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await deleteAddress(addressId);
+
+      localStorage.removeItem('address_data');
+      formik.resetForm();
+      setIsSubmitted(false);
+      toast.success('Address deleted');
+    } catch (err) {
+      console.error('Delete failed', err);
+      toast.error('Failed to delete address');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -236,15 +269,12 @@ function AddressForm() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => {
-                  formik.resetForm();
-                  localStorage.removeItem('address_data');
-                  setIsSubmitted(false);
-                }}
                 className="flex-1"
                 size="lg"
+                onClick={handleDeleteAddress}
+                disabled={loading || !isSubmitted}
               >
-                Reset Form
+                Delete Address
               </Button>
             </div>
           </form>

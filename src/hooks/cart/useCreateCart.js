@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
 

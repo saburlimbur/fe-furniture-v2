@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable arrow-parens */
 import React, { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useFormik } from 'formik';
@@ -12,13 +14,6 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import useCreateProduct from '@/hooks/product/useCreateProduct';
 import productSchema from '@/schema/ProductSchema';
 
@@ -57,7 +52,7 @@ function FormCreateProduct({ onSuccess }) {
 
         if (onSuccess) onSuccess();
       } catch (error) {
-        console.error('Create product error:', err);
+        console.error('Create product error:', error);
       } finally {
         setLoading(false);
       }

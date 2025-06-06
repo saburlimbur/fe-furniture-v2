@@ -1,5 +1,9 @@
-import React from 'react';
-import { Badge, Bell, DollarSign, Settings } from 'lucide-react';
+/* eslint-disable react/no-unescaped-entities */
+import React, { useState } from 'react';
+import { Badge, Bell, DollarSign, Package, Settings } from 'lucide-react';
+
+import FormCreateCategory from '@/components/fragments/Admin/FormCreateCategory';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 
 import Card from '../../components/fragments/Card';
 import {
@@ -16,6 +20,7 @@ import { SidebarInset, SidebarTrigger } from '../../components/ui/sidebar';
 import useGetAllCategorys from '../../hooks/category/useGetAllCategorys';
 
 function CategoryPage() {
+  const [open, setOpen] = useState(false);
   const { allCategorys, isError, isLoading } = useGetAllCategorys();
   const categories = allCategorys?.query ?? [];
 
@@ -48,7 +53,7 @@ function CategoryPage() {
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink href="#" className="text-muted-foreground">
-                    Admin Panel
+                    Dashboard
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
@@ -72,50 +77,62 @@ function CategoryPage() {
         </header>
 
         {/* main page */}
-        <div className="flex flex-1 flex-col gap-6 p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex flex-col gap-1.5">
-              <h1 className="text-3xl font-bold tracking-tight">Category</h1>
-              <p className="text-muted-foreground">
-                Welcome back! Here's what's happening with your business today.
-              </p>
+        <div className="flex flex-1 flex-col gap-6 pt-5 px-3">
+          <div className="border rounded-lg shadow-md p-6 flex flex-col gap-14">
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-1.5">
+                <h1 className="text-2xl font-bold">Category</h1>
+                <p className="text-muted-foreground">
+                  Welcome back! Here's what's happening with your business
+                  today.
+                </p>
+              </div>
+
+              <div className="flex gap-2">
+                <Dialog open={open} onOpenChange={setOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="cursor-pointer">
+                      <Package className="h-4 w-4" />
+                      Add Category
+                    </Button>
+                  </DialogTrigger>
+                  <FormCreateCategory onSuccess={() => setOpen(false)} />
+                </Dialog>
+              </div>
             </div>
-            <Badge variant="secondary" className="px-3 py-1">
-              Live Data
-            </Badge>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {categories?.map(item => (
-              <Card
-                key={item?.id}
-                className="flex items-center p-4 rounded-2xl border border-gray-50 bg-white shadow-sm hover:shadow-md transition-all duration-300 group"
-              >
-                <Card.Header className="w-1/2 h-full rounded-xl overflow-hidden">
-                  <img
-                    src={categoryImage[item.category_name]}
-                    alt={item.category_name}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </Card.Header>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {categories?.map(item => (
+                <Card
+                  key={item?.id}
+                  className="flex items-center p-4 rounded-2xl border border-gray-50 bg-white shadow-sm hover:shadow-md transition-all duration-300 group"
+                >
+                  <Card.Header className="w-1/2 h-full rounded-xl overflow-hidden">
+                    <img
+                      src={categoryImage[item.category_name]}
+                      alt={item.category_name}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </Card.Header>
 
-                <Card.Body className="w-1/2 flex flex-col justify-center gap-3 pl-4">
-                  <h2 className="text-xl font-semibold text-gray-900">
-                    {item.category_name}
-                  </h2>
-                  <p className="text-sm text-muted-foreground leading-snug">
-                    {categoryDesc[item.category_name]}
-                  </p>
+                  <Card.Body className="w-1/2 flex flex-col justify-center gap-3 pl-4">
+                    <h2 className="text-xl font-semibold text-gray-900">
+                      {item.category_name}
+                    </h2>
+                    <p className="text-sm text-muted-foreground leading-snug">
+                      {categoryDesc[item.category_name]}
+                    </p>
 
-                  <Button
-                    variant="outline"
-                    className="mt-2 w-fit text-sm hover:bg-primary hover:text-white transition cursor-pointer"
-                  >
-                    View Details
-                  </Button>
-                </Card.Body>
-              </Card>
-            ))}
+                    <Button
+                      variant="outline"
+                      className="mt-2 w-fit text-sm hover:bg-primary hover:text-white transition cursor-pointer"
+                    >
+                      View Details
+                    </Button>
+                  </Card.Body>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       </SidebarInset>

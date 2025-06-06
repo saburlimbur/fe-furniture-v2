@@ -1,18 +1,17 @@
-/* eslint-disable no-console */
+/* eslint-disable arrow-parens */
 import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
 
 import CartItemService from '@/service/CartItemService';
 
-export default function useDeleteCartItem(id) {
+export default function useDeleteCartItem() {
   const {
     mutateAsync: deleteCartItem,
     isLoading,
     isError,
   } = useMutation({
     mutationKey: ['deleteCartItem'],
-    mutationFn: () => CartItemService.deleteCartItem(id),
-    // retry: false,
+    mutationFn: id => CartItemService.deleteCartItem(id),
     onSuccess: () => {
       toast.success('Product removed from cart successfully!');
     },

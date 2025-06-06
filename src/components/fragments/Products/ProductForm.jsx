@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 
@@ -35,7 +36,7 @@ function ProductForm({ onSubmit }) {
       try {
         await createProduct(payload);
       } catch (error) {
-        console.error('Create product error:', err);
+        console.error('Create product error:', error);
       } finally {
         setLoading(false);
       }

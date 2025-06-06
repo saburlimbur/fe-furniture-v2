@@ -1,3 +1,5 @@
+/* eslint-disable react/button-has-type */
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
@@ -45,8 +47,8 @@ function Navbar() {
   };
 
   return (
-    <div className="border-b-gray-300 relative pb-28 flex justify-center z-[99]">
-      <header className="max-w-[1400px] w-full mx-auto py-2 fixed top-5 left-0 right-0 z-50 rounded-2xl border border-gray-100 bg-white">
+    <div className="border-b-gray-300 relative pb-28 flex justify-center z-[50]">
+      <header className="max-w-[1500px] w-full mx-auto py-2 fixed top-5 left-0 right-0 rounded-2xl border border-gray-100 bg-white">
         <div className="flex items-center justify-between px-6">
           <Link to="/">
             <img src="/logo.png" className="w-[100px] h-24 object-cover" />

@@ -52,4 +52,16 @@ export default class ProductService {
       }
     }
   }
+
+  static async deleteProduct(id) {
+    try {
+      const result = await AxiosInterceptor(`/product/${id}`);
+
+      return result.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw new Error(error.response.data.message);
+      }
+    }
+  }
 }

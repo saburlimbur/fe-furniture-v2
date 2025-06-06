@@ -1,8 +1,11 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/button-has-type */
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { MoreHorizontal, ShieldCheck, User2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,13 +21,22 @@ import {
   TableHead,
   TableRow,
 } from '@/components/ui/table';
+import useGetUserById from '@/hooks/users/useGetUserById';
 import useListUsers from '@/hooks/users/useListUsers';
 
 import useDeleteUserById from '../../../hooks/users/useDeleteUserById';
 
-function UsersList() {
+import UserDetailModal from './UserDetailModal';
+
+function UsersList({ selectedRole }) {
+  const [selectUserId, setSelectUserId] = useState(null);
   const { listUsers } = useListUsers();
   const { deleteUserId } = useDeleteUserById();
+
+  const filteredUsers = listUsers?.query?.filter(user => {
+    if (selectedRole === 'all') return true;
+    return user.role === selectedRole;
+  });
 
   console.log('listUsers:', listUsers);
 
@@ -50,7 +62,7 @@ function UsersList() {
           </TableRow>
         </thead>
         <TableBody>
-          {listUsers?.query?.map(user => (
+          {filteredUsers?.map(user => (
             <TableRow key={user.id}>
               <TableCell className="font-medium">{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
@@ -79,6 +91,24 @@ function UsersList() {
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
+                    <Dialog className="w-full">
+                      <DialogTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="border-none px-2"
+                          onClick={() => setSelectUserId(user?.id)}
+                        >
+                          Details User
+                        </Button>
+                      </DialogTrigger>
+                      <div className="w-full">
+                        {selectUserId && (
+                          <UserDetailModal userId={selectUserId} />
+                        )}
+                      </div>
+                    </Dialog>
+
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem>Edit User</DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem

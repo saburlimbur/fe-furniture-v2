@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { Bell, Filter, Settings, UserPlus } from 'lucide-react';
 
 import FormCreateUser from '@/components/fragments/Admin/FormCreateUser';
@@ -38,8 +38,12 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
+import useListUsers from '@/hooks/users/useListUsers';
 
 function UsersPage() {
+  const { listUsers } = useListUsers();
+  const [selectedRole, setSelectedRole] = useState('all');
+
   return (
     <section>
       <SidebarInset>
@@ -120,7 +124,7 @@ function UsersPage() {
                       <SelectItem value="Suspended">Suspended</SelectItem>
                     </SelectContent>
                   </Select>
-                  <Select>
+                  <Select onValueChange={value => setSelectedRole(value)}>
                     <SelectTrigger className="w-[120px]">
                       <SelectValue placeholder="Role" />
                     </SelectTrigger>
@@ -135,7 +139,7 @@ function UsersPage() {
             </CardHeader>
 
             <div className="border rounded-lg mx-6 p-2 overflow-visible">
-              <UsersList />
+              <UsersList selectedRole={selectedRole} />
             </div>
 
             <Pagination>

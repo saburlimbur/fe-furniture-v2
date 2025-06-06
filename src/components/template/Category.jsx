@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ChevronRight, Plus, ShoppingBag, Store, Users } from 'lucide-react';
+import { ShoppingBag, Store, Users } from 'lucide-react';
 
 import useGetCategoryById from '@/hooks/category/useGetCategoryById';
 
@@ -38,7 +40,7 @@ export default function Category() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
           transition={{ duration: 0.5 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid grid-cols-3 gap-8"
         >
           <div className="bg-white rounded-xl shadow-sm p-6 flex items-center space-x-4 border border-gray-100 hover:border-gray-200 transition-all">
             <div className="h-12 w-12 rounded-full bg-rose-50 flex items-center justify-center flex-shrink-0">
@@ -93,7 +95,7 @@ export default function Category() {
         animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+        <div className="grid grid-cols-3 gap-8 justify-between">
           <CategoryItem />
         </div>
       </motion.div>

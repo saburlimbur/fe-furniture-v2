@@ -1,5 +1,8 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
+import { jwtDecode } from 'jwt-decode';
+
 import AxiosInterceptor from './AxiosInterceptor';
 
 export default class UserService {
@@ -13,11 +16,13 @@ export default class UserService {
         role,
       });
 
+      const token = result.data.token;
       localStorage.setItem('furniture_token', result.data.token);
 
-      localStorage.setItem('furniture_user', JSON.stringify(result.data.user));
+      const userData = jwtDecode(token);
+      localStorage.setItem('furniture_user', JSON.stringify(userData));
 
-      console.log(result.data);
+      console.log('userData:', userData);
 
       return result.data;
     } catch (error) {
@@ -59,7 +64,7 @@ export default class UserService {
 
   static async listAllUsers() {
     try {
-      const result = await AxiosInterceptor.post('/users');
+      const result = await AxiosInterceptor.get('/users');
       return result.data;
     } catch (error) {
       console.error('Fetch users error:', error);
@@ -76,7 +81,7 @@ export default class UserService {
     try {
       const result = await AxiosInterceptor.get(`/users/${id}`);
 
-      return result.data.user;
+      return result.data?.data;
     } catch (error) {
       if (error.response && error.response.data) {
         throw new Error(error.response.data.message);

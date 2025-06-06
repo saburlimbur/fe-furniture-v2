@@ -38,4 +38,21 @@ export default class CartService {
       }
     }
   }
+
+  static async updateCart(payload) {
+    try {
+      const result = AxiosInterceptor.put('/cart', payload); // isi body dari BE
+
+      const updatedCart = result.data?.data;
+      if (updatedCart) {
+        localStorage.setItem('cart_data', JSON.stringify(updatedCart));
+      }
+
+      return updatedCart;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw new Error(error.response.data.message);
+      }
+    }
+  }
 }

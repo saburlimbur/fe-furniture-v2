@@ -1,3 +1,7 @@
+/* eslint-disable arrow-parens */
+/* eslint-disable no-unused-vars */
+/* eslint-disable consistent-return */
+/* eslint-disable camelcase */
 import AxiosInterceptor from './AxiosInterceptor';
 
 export default class CartItemService {
@@ -14,6 +18,12 @@ export default class CartItemService {
         quantity,
         subtotal_price,
       });
+
+      const cartItemData = result.data?.data;
+
+      if (cartItemData) {
+        localStorage.setItem('cart_item_data', JSON.stringify(cartItemData));
+      }
       return result.data;
     } catch (error) {
       if (error.response && error.response.data) {
@@ -25,7 +35,6 @@ export default class CartItemService {
   static async getCartItemById(id) {
     try {
       const result = await AxiosInterceptor.get(`/cart-item/${id}`);
-
       return result.data?.data;
     } catch (error) {
       if (error.response && error.response.data) {
@@ -37,7 +46,7 @@ export default class CartItemService {
   static async deleteCartItem(id) {
     try {
       const result = await AxiosInterceptor.delete(`/cart-item/${id}`);
-      return result.data;
+      return result.data?.data;
     } catch (error) {
       if (error.response && error.response.data) {
         throw new Error(error.response.data.message);
