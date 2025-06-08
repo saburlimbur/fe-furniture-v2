@@ -27,9 +27,9 @@ function ProductsList() {
       <Table>
         <thead>
           <TableRow className="text-muted-foreground">
-            <TableHead>Name</TableHead>
-            <TableHead>Image</TableHead>
-            <TableHead>Description</TableHead>
+            <TableHead className="text-gray-400">Name</TableHead>
+            <TableHead className="text-gray-400">Image</TableHead>
+            <TableHead className="text-gray-400">Description</TableHead>
             <TableHead className="text-center text-gray-400">Price</TableHead>
             <TableHead className="text-center text-gray-400">Stock</TableHead>
             <TableHead className="text-center text-gray-400">

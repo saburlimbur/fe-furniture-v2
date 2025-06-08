@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import { Plus } from 'lucide-react';
 

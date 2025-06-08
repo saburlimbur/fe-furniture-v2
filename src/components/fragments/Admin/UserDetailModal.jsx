@@ -18,6 +18,8 @@ function UserDetailModal({ userId }) {
   const [activeTab, setActiveTab] = useState('account');
   const { user, isLoading, isError } = useGetUserById(userId);
 
+  console.log(user);
+
   if (isLoading || !user) {
     return (
       <DialogContent className="w-full sm:max-w-md md:max-w-lg bg-white">
@@ -91,16 +93,16 @@ function UserDetailModal({ userId }) {
                 Personal Information
               </h3>
               <div className="grid grid-cols-2 gap-6 mb-4">
-                <div>
+                <div className="flex flex-col gap-2">
                   <Label htmlFor="name">Name</Label>
                   <Input readOnly id="name" defaultValue={user?.name || ''} />
                 </div>
-                <div>
+                <div className="flex flex-col gap-2">
                   <Label htmlFor="role">Role</Label>
                   <Input readOnly id="role" defaultValue={user?.role || ''} />
                 </div>
               </div>
-              <div>
+              <div className="flex flex-col gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input readOnly id="email" defaultValue={user?.email || ''} />
               </div>

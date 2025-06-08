@@ -1,11 +1,22 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react';
-import { Badge, Bell, DollarSign, Package, Settings } from 'lucide-react';
+import { Bell, Filter, Package, Settings } from 'lucide-react';
 
+import CategoryLists from '@/components/fragments/Admin/CategoryLists';
 import FormCreateCategory from '@/components/fragments/Admin/FormCreateCategory';
+import OrderLists from '@/components/fragments/Admin/OrderLists';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
-import Card from '../../components/fragments/Card';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -101,37 +112,80 @@ function CategoryPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-3 gap-6">
               {categories?.map(item => (
                 <Card
                   key={item?.id}
-                  className="flex items-center p-4 rounded-2xl border border-gray-50 bg-white shadow-sm hover:shadow-md transition-all duration-300 group"
+                  className="flex items-center p-4 rounded-2xl border border-gray-50 bg-white transition-all duration-300 group cursor-pointer"
                 >
-                  <Card.Header className="w-1/2 h-full rounded-xl overflow-hidden">
-                    <img
-                      src={categoryImage[item.category_name]}
-                      alt={item.category_name}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </Card.Header>
+                  <div className="flex items-center gap-1">
+                    <CardTitle className="w-1/2 h-full rounded-xl overflow-hidden">
+                      <img
+                        src={categoryImage[item.category_name]}
+                        alt={item.category_name}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </CardTitle>
 
-                  <Card.Body className="w-1/2 flex flex-col justify-center gap-3 pl-4">
-                    <h2 className="text-xl font-semibold text-gray-900">
-                      {item.category_name}
-                    </h2>
-                    <p className="text-sm text-muted-foreground leading-snug">
-                      {categoryDesc[item.category_name]}
-                    </p>
-
-                    <Button
-                      variant="outline"
-                      className="mt-2 w-fit text-sm hover:bg-primary hover:text-white transition cursor-pointer"
-                    >
-                      View Details
-                    </Button>
-                  </Card.Body>
+                    <CardContent className="w-1/2 flex flex-col justify-center gap-3 pl-4">
+                      <h2 className="text-xl font-semibold text-gray-900">
+                        {item.category_name}
+                      </h2>
+                      <p className="text-sm text-muted-foreground leading-snug">
+                        {categoryDesc[item.category_name]}
+                      </p>
+                    </CardContent>
+                  </div>
                 </Card>
               ))}
+            </div>
+
+            <div>
+              <CardHeader className="px-6 mb-4">
+                <div className="flex items-center gap-4">
+                  <div className="flex-1">
+                    <Input
+                      placeholder="Filter users..."
+                      className="max-w-sm h-6 py-5"
+                    />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Filter className="h-4 w-4 text-muted-foreground" />
+                    <Select>
+                      <SelectTrigger className="w-[120px]">
+                        <SelectValue placeholder="Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="Active">Active</SelectItem>
+                        <SelectItem value="Invited">Invited</SelectItem>
+                        <SelectItem value="Inactive">Inactive</SelectItem>
+                        <SelectItem value="Suspended">Suspended</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Select>
+                      <SelectTrigger className="w-[160px]">
+                        <SelectValue placeholder="Category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Category</SelectItem>
+                        {categories?.map(category => (
+                          <SelectItem
+                            key={category?.id}
+                            value={category?.category_name}
+                          >
+                            {category?.category_name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardHeader>
+
+              <div className="border rounded-lg mx-6 p-2 overflow-visible">
+                <CategoryLists />
+              </div>
             </div>
           </div>
         </div>

@@ -51,4 +51,16 @@ export default class OrderService {
       }
     }
   }
+
+  static async getAllOrders() {
+    try {
+      const result = await AxiosInterceptor('/orders');
+
+      return result.data?.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw new Error(error.response.data.message);
+      }
+    }
+  }
 }

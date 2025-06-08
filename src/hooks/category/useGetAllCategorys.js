@@ -7,10 +7,11 @@ export default function useGetAllCategorys() {
     data: allCategorys,
     isLoading,
     isError,
+    refetch,
   } = useQuery({
     queryKey: ['categorys'],
     queryFn: () => CategoryService.getAllCategory(),
   });
 
-  return { allCategorys, isLoading, isError };
+  return { allCategorys, isLoading, isError, refetch };
 }

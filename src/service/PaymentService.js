@@ -19,9 +19,27 @@ export default class PaymentService {
       });
 
       localStorage.setItem('payment_data', JSON.stringify(result.data?.data));
+
+      return result.data;
     } catch (error) {
       if (error.response && error.response.data) {
         throw new Error(error.response.data.message);
+      }
+      throw error;
+    }
+  }
+
+  static async listAllPayment() {
+    try {
+      const result = await AxiosInterceptor.get('/payment');
+      return result.data?.data;
+    } catch (error) {
+      console.error('Fetch payment error:', error);
+
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      } else {
+        throw new Error(error.message || 'Failed to fetch payment');
       }
     }
   }

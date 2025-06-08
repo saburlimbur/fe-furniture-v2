@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { isEqual } from 'lodash';
 
+import CheckoutInformations from '@/components/fragments/Checkouts/CheckoutInformations';
 import CheckoutOrderItems from '@/components/fragments/Checkouts/CheckoutOrderItems';
 import CheckoutPaymentMethod from '@/components/fragments/Checkouts/CheckoutPaymentMethod';
 import CheckoutProductItems from '@/components/fragments/Checkouts/CheckoutProductItems';
@@ -21,11 +23,11 @@ import { formatRp } from '@/utils/Formatted';
 
 function CartPage() {
   const [currentStep, setCurrentStep] = useState(1);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const userData = JSON.parse(localStorage.getItem('furniture_user'));
   const cartData = JSON.parse(localStorage.getItem('cart_data'));
-  const shippingData = JSON.parse(localStorage.getItem('shipping_data'));
+  // const shippingData = JSON.parse(localStorage.getItem('shipping_data'));
 
   const cartId = cartData?.id;
   const userId = userData?.id;
@@ -33,7 +35,7 @@ function CartPage() {
   const { cartId: cart } = useGetCartById(Number(cartId));
   const { createOrder } = useCreateOrder();
   const { updateCart } = useUpdateCart();
-  const { shippingId, refetch } = useGetShippingById();
+  // const { shippingId, refetch } = useGetShippingById();
 
   const itemList = cart?.cartItems || [];
   const subtotal = calculateCartTotal(itemList);
@@ -76,21 +78,21 @@ function CartPage() {
     }
   }, [cartId, userId, subtotal, total, cartData, itemList, updateCart]);
 
-  const handleCreateOrder = async () => {
-    try {
-      await createOrder({
-        user_id: Number(userId),
-        cart_id: Number(cartId),
-        total_price: total,
-        status: ORDER_STATUS.PENDING,
-      });
+  // const handleCreateOrder = async () => {
+  //   try {
+  //     await createOrder({
+  //       user_id: Number(userId),
+  //       cart_id: Number(cartId),
+  //       total_price: total,
+  //       status: ORDER_STATUS.PENDING,
+  //     });
 
-      toast.success('Order created successfully!');
-    } catch (error) {
-      console.error('Error creating order:', error);
-      toast.error('Something went wrong', error.message);
-    }
-  };
+  //     toast.success('Order created successfully!');
+  //   } catch (error) {
+  //     console.error('Error creating order:', error);
+  //     toast.error('Something went wrong', error.message);
+  //   }
+  // };
 
   return (
     <section className="max-w-[1500px] mx-auto p-4 pt-12 min-h-screen space-y-10">
@@ -105,6 +107,7 @@ function CartPage() {
           {currentStep === 2 && <CheckoutOrderItems />}
           {currentStep === 3 && <CheckoutShippingMethod />}
           {currentStep === 4 && <CheckoutPaymentMethod />}
+          {currentStep === 5 && <CheckoutInformations />}
 
           <div className="flex gap-4 justify-end">
             <Button
@@ -115,8 +118,8 @@ function CartPage() {
               Previous Step
             </Button>
             <Button
-              onClick={() => setCurrentStep(prev => Math.min(prev + 1, 4))}
-              disabled={currentStep === 4}
+              onClick={() => setCurrentStep(prev => Math.min(prev + 1, 5))}
+              disabled={currentStep === 5}
             >
               Next Step
             </Button>

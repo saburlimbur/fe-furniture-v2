@@ -1,6 +1,7 @@
 /* eslint-disable arrow-parens */
 /* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
+import toast from 'react-hot-toast';
 import axios from 'axios';
 
 const AxiosInterceptor = axios.create({
@@ -34,8 +35,13 @@ AxiosInterceptor.interceptors.response.use(
       console.warn('Unauthorized! Redirecting to login...');
 
       localStorage.removeItem('furniture_token');
+      localStorage.removeItem('furniture_user');
 
-      window.location.href = '/login';
+      toast.error('Unauthorized! Redirecting to login...');
+
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 2000);
     }
 
     return Promise.reject(error);

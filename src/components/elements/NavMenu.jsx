@@ -25,6 +25,11 @@ function NavMenu() {
             Carts
           </NavLink>
         </li>
+        <li>
+          <NavLink className="font-semibold text-sm hover:text-orange-500 transition-colors ease-in cursor-pointer uppercase">
+            FAQ
+          </NavLink>
+        </li>
       </ul>
     </nav>
   );

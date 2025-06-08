@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState } from 'react';
 
@@ -24,6 +25,7 @@ import {
 } from '../Payment/PaymentMethod';
 
 import CheckoutPaymentModalBarcode from './CheckoutPaymentModalBarcode';
+import CheckoutPaymentModalSucces from './CheckoutPaymentModalSucces';
 
 const paymentOptions = [
   { id: 'bank', label: 'Bank Transfer' },
@@ -36,9 +38,13 @@ function CheckoutPaymentMethod() {
   const [selectedMethod, setSelectedMethod] = useState('ewallet');
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [amount, setAmount] = useState(0);
+
   const { createPayment } = useCreatePayment();
   const { updateOrder } = useUpdateOrder();
+
+  const paymentData = JSON.parse(localStorage.getItem('payment_data'));
 
   const mapToPrismaEnum = {
     bank: 'Bank_Transfer',
@@ -91,10 +97,10 @@ function CheckoutPaymentMethod() {
       <Card className="max-w-4xl mx-auto p-6">
         <CardHeader className="mb-4">
           <CardTitle className="text-2xl text-black font-semibold">
-            Metode Pembayaran
+            Payment Method
           </CardTitle>
-          <p className="text-sm text-gray-500 mt-1">
-            Pilih salah satu metode pembayaran yang tersedia di bawah.
+          <p className="text-sm text-gray-500">
+            Select one of the payment methods available below.
           </p>
         </CardHeader>
 
@@ -141,21 +147,21 @@ function CheckoutPaymentMethod() {
         </CardContent>
 
         <CardFooter className="flex items-center justify-end gap-4 px-0 pt-5">
-          {!paymentConfirmed ? (
-            <Button
-              onClick={handleCreatePayment}
-              className="bg-black text-white hover:bg-gray-800"
-              size="lg"
-            >
-              Confirm Payment Method
-            </Button>
-          ) : (
+          {paymentData ? (
             <Button
               onClick={() => setShowModal(true)}
               className="bg-black text-white hover:bg-gray-800"
               size="lg"
             >
               Show Payment Barcode
+            </Button>
+          ) : (
+            <Button
+              onClick={handleCreatePayment}
+              className="bg-black text-white hover:bg-gray-800"
+              size="lg"
+            >
+              Confirm Payment Method
             </Button>
           )}
           <Button
@@ -175,6 +181,15 @@ function CheckoutPaymentMethod() {
           paymentOptions.find(opt => opt.id === selectedMethod)?.label || ''
         }
         amount={amount}
+        onVerifySuccess={() => {
+          setShowModal(false);
+          setShowSuccessModal(true);
+        }}
+      />
+
+      <CheckoutPaymentModalSucces
+        open={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
       />
     </>
   );

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-alert */
-import React from 'react';
+import React, { useState } from 'react';
 import Barcode from 'react-barcode';
 import { ArrowRight, Copy, QrCode } from 'lucide-react';
 
@@ -13,12 +13,24 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 
-function CheckoutPaymentModalBarcode({ open, onClose, method, amount }) {
+function CheckoutPaymentModalBarcode({
+  open,
+  onClose,
+  method,
+  amount,
+  onVerifySuccess,
+}) {
   const paymentData = JSON.parse(localStorage.getItem('payment_data'));
   const barcodeValue = `PAYMENT|${method}|${paymentData?.id}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(barcodeValue);
+  };
+
+  const handleVerify = () => {
+    if (typeof onVerifySuccess === 'function') {
+      onVerifySuccess();
+    }
   };
 
   return (
@@ -56,7 +68,7 @@ function CheckoutPaymentModalBarcode({ open, onClose, method, amount }) {
           <p className="text-sm uppercase font-semibold tracking-wide">
             Or enter the code manually
           </p>
-          <div className="flex w-full max-w-md border border-black rounded-md overflow-hidden flex justify-center items-center">
+          <div className="w-full max-w-md border border-black rounded-md overflow-hidden flex justify-center items-center">
             <Input
               readOnly
               value={barcodeValue}
@@ -77,7 +89,7 @@ function CheckoutPaymentModalBarcode({ open, onClose, method, amount }) {
         <Button
           className="w-full cursor-pointer h-[50px]"
           size="lg"
-          onClick={() => alert('Hello')}
+          onClick={handleVerify}
         >
           Verify Payment
           <ArrowRight className="ml-2 w-4 h-4" />
