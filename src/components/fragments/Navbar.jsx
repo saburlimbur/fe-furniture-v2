@@ -34,7 +34,7 @@ function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('furniture_token');
+    // localStorage.removeItem('furniture_token');
     localStorage.removeItem('furniture_user');
     localStorage.removeItem('cart_id');
     localStorage.removeItem('cart_data');

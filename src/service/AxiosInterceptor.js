@@ -31,7 +31,7 @@ AxiosInterceptor.interceptors.response.use(
     return response;
   },
   error => {
-    if (error.response && error.response.status === 401) {
+    if (error.response && error.response.status === 403) {
       console.warn('Unauthorized! Redirecting to login...');
 
       localStorage.removeItem('furniture_token');
