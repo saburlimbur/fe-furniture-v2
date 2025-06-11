@@ -43,4 +43,19 @@ export default class PaymentService {
       }
     }
   }
+
+  static async updatePayment({ id, data }) {
+    try {
+      const result = await AxiosInterceptor.put(`/payment/${id}`, data);
+
+      localStorage.setItem('payment_data', JSON.stringify(result.data?.data));
+
+      return result.data?.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw new Error(error.response.data.message);
+      }
+      throw error;
+    }
+  }
 }

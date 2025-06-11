@@ -102,12 +102,19 @@ function CartPage() {
       />
 
       <div className="flex w-full gap-6">
-        <div className="w-[60%] space-y-6 flex-col">
+        <div
+          className={`${
+            currentStep === 5 ? 'w-full' : 'w-[60%]'
+          } space-y-6 flex-col transition-all duration-300`}
+        >
           {currentStep === 1 && <AddressForm />}
           {currentStep === 2 && <CheckoutOrderItems />}
           {currentStep === 3 && <CheckoutShippingMethod />}
           {currentStep === 4 && <CheckoutPaymentMethod />}
-          {currentStep === 5 && <CheckoutInformations />}
+
+          <div className="w-full">
+            {currentStep === 5 && <CheckoutInformations />}
+          </div>
 
           <div className="flex gap-4 justify-end">
             <Button
@@ -126,43 +133,28 @@ function CartPage() {
           </div>
         </div>
 
-        <div className="w-[40%] flex flex-col gap-3">
-          <CheckoutProductItems />
+        {currentStep !== 5 && (
+          <div className="w-[40%] flex flex-col gap-3">
+            <CheckoutProductItems />
 
-          <div className="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm space-y-6 sticky top-20">
-            <div className="flex justify-between text-sm text-gray-600">
-              <span>Subtotal</span>
-              <span>{formatRp(subtotal)}</span>
+            <div className="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm space-y-6 sticky top-20">
+              <div className="flex justify-between text-sm text-gray-600">
+                <span>Subtotal</span>
+                <span>{formatRp(subtotal)}</span>
+              </div>
+
+              <div className="flex justify-between text-sm text-gray-600">
+                <span>Shipping</span>
+                <span>{formatRp(shipping)}</span>
+              </div>
+
+              <div className="border-t pt-4 flex justify-between font-semibold text-md">
+                <span>Total</span>
+                <span>{formatRp(total)}</span>
+              </div>
             </div>
-
-            <div className="flex justify-between text-sm text-gray-600">
-              <span>Shipping</span>
-              <span>{formatRp(shipping)}</span>
-            </div>
-
-            <div className="border-t pt-4 flex justify-between font-semibold text-md">
-              <span>Total</span>
-              <span>{formatRp(total)}</span>
-            </div>
-
-            {/* <Button
-              size="lg"
-              variant="outline"
-              className="w-full cursor-pointer"
-              onClick={() => navigate('/products')}
-            >
-              Continue Shopping
-            </Button>
-
-            <Button
-              size="lg"
-              className="w-full text-white cursor-pointer"
-              onClick={handleCreateOrder}
-            >
-              Proceed to Checkout
-            </Button> */}
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

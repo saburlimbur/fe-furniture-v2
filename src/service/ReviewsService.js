@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import AxiosInterceptor from './AxiosInterceptor';
 
 export default class ReviewsService {
@@ -11,6 +12,32 @@ export default class ReviewsService {
       });
 
       return result.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw new Error(error.response.data.message);
+      }
+      throw error; // fallback error
+    }
+  }
+
+  static async getReviewById(id) {
+    try {
+      const result = await AxiosInterceptor.get(`/reviews/${id}`);
+
+      return result.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw new Error(error.response.data.message);
+      }
+      throw error; // fallback error
+    }
+  }
+
+  static async getReviews() {
+    try {
+      const result = await AxiosInterceptor.get('reviews');
+
+      return result.data?.data;
     } catch (error) {
       if (error.response && error.response.data) {
         throw new Error(error.response.data.message);

@@ -28,6 +28,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import useGetAllPayments from '@/hooks/payment/useGetAllPayments';
+import { formatRp } from '@/utils/Formatted';
 
 function PaymentStatusDropdown({ status, onChange }) {
   const badgeStyle = {
@@ -135,7 +136,7 @@ function PaymentsList() {
             <TableRow key={payment.id}>
               <TableCell>{payment.id}</TableCell>
               <TableCell>{payment.order_id}</TableCell>
-              <TableCell>Rp {payment.amount}</TableCell>
+              <TableCell>{formatRp(payment?.amount)}</TableCell>
               <TableCell className="text-center">
                 <PaymentStatusDropdown
                   status={payment.payment_status}

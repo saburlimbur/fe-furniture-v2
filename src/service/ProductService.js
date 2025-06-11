@@ -64,4 +64,32 @@ export default class ProductService {
       }
     }
   }
+
+  static async updateProduct({
+    id,
+    name,
+    description,
+    price,
+    stock,
+    category_id,
+    image_url,
+  }) {
+    try {
+      const result = await AxiosInterceptor.put('/product', {
+        id,
+        name,
+        description,
+        price,
+        stock,
+        category_id,
+        image_url,
+      });
+
+      return result.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw new Error(error.response.data.message);
+      }
+    }
+  }
 }

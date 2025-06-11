@@ -18,6 +18,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import useGetAllProducts from '@/hooks/product/useGetAllProducts';
+import { formatRp } from '@/utils/Formatted';
 
 function ProductsList() {
   const { allProducts } = useGetAllProducts();
@@ -54,7 +55,7 @@ function ProductsList() {
               </TableCell>
               <TableCell className="text-center">
                 Rp
-                {product.price}
+                {formatRp(product?.price)}
               </TableCell>
               <TableCell className="text-center">{product.stock}</TableCell>
               <TableCell className="text-center">

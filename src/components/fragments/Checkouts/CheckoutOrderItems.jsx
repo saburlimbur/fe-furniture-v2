@@ -131,7 +131,7 @@ function CheckoutOrderItems() {
                 <span className="text-sm font-medium text-gray-600">
                   Status
                 </span>
-                <Badge className="bg-blue-100 text-blue-800 uppercase text-sm">
+                <Badge className="bg-yellow-100 text-yellow-700 uppercase text-sm">
                   {ORDER_STATUS.PENDING}
                 </Badge>
               </div>

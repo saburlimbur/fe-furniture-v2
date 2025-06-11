@@ -1,11 +1,10 @@
 /* eslint-disable no-restricted-globals */
 function formatRp(number) {
-  if (typeof number !== 'number' || isNaN(number)) return 'Rp 0';
-  return number.toLocaleString('id-ID', {
+  return new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR',
     minimumFractionDigits: 0,
-  });
+  }).format(number);
 }
 
 function formatPrice(priceString) {
@@ -15,4 +14,13 @@ function formatPrice(priceString) {
   return isNaN(price) ? 0 : price;
 }
 
-export { formatPrice, formatRp };
+const formatDate = dateString =>
+  new Date(dateString).toLocaleString('id-ID', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+export { formatDate, formatPrice, formatRp };

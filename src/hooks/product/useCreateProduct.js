@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
 import toast from 'react-hot-toast';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import ProductService from '../../service/ProductService';
 
 export default function useCreateProduct() {
+  const queryClient = useQueryClient();
   const {
     mutate: createProduct,
     isLoading,
@@ -23,6 +24,7 @@ export default function useCreateProduct() {
       }),
     onSuccess: () => {
       toast.success('Product created successfully');
+      queryClient.invalidateQueries({ queryKey: ['products'] });
     },
     onError: error => {
       toast.error(error.message || 'Somthing wen wrong');

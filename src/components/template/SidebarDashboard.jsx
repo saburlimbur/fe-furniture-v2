@@ -1,27 +1,24 @@
-import React, { useState } from 'react';
+/* eslint-disable react/button-has-type */
+/* eslint-disable jsx-a11y/alt-text */
+import React from 'react';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Bell,
-  Building2,
   ChevronUp,
   CreditCard,
   FileText,
-  HelpCircle,
   Home,
-  Inbox,
   LogOut,
   Package,
   PieChart,
   Plus,
+  ReceiptText,
   Search,
   Settings,
-  Shield,
-  ShoppingCart,
   TrendingUp,
   UserCheck,
   Users,
-  Zap,
 } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -47,7 +44,6 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import useListUsers from '@/hooks/users/useListUsers';
 
 const navigationItems = [
   {
@@ -99,6 +95,13 @@ const managementItems = [
     title: 'Payments',
     url: '/dashboard/payments',
     icon: CreditCard,
+    badge: null,
+    isActive: false,
+  },
+  {
+    title: 'Checkout',
+    url: '/dashboard/checkouts',
+    icon: ReceiptText,
     badge: null,
     isActive: false,
   },

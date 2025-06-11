@@ -1,16 +1,14 @@
+/* eslint-disable camelcase */
 import toast from 'react-hot-toast';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import ReviewsService from '@/service/ReviewsService';
 
 export default function useCreateReview() {
-  const {
-    data: createReview,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ['createReview'],
-    queryFn: ({ user_id, product_id, rating, review_content }) =>
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationKey: ['createReview'],
+    mutationFn: async ({ user_id, product_id, rating, review_content }) =>
       ReviewsService.createReview({
         user_id,
         product_id,
@@ -18,6 +16,7 @@ export default function useCreateReview() {
         review_content,
       }),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reviewProduct'] });
       toast.success('Review created successfully!');
     },
     onError: error => {
@@ -26,5 +25,9 @@ export default function useCreateReview() {
     },
   });
 
-  return { createReview, isLoading, isError };
+  return {
+    createReview: mutation.mutateAsync,
+    isLoading: mutation.isLoading,
+    isError: mutation.isError,
+  };
 }

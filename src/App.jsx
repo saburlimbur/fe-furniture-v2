@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AppLayouts from './components/layouts/AppLayouts';
 import DashboardLayout from './components/layouts/DashboardLayout';
 import CategoryPage from './pages/admin/CategoryPage';
+import CheckoutsPage from './pages/admin/CheckoutsPage';
 import Dashboard from './pages/admin/dashboard';
 import OrdersPage from './pages/admin/OrdersPage';
 import PaymentsPage from './pages/admin/PaymentsPage';
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
       {
         path: 'category',
         element: <CategoryPage />,
+      },
+      {
+        path: 'checkouts',
+        element: <CheckoutsPage />,
       },
     ],
   },

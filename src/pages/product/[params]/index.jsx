@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -10,6 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import useCreateCart from '@/hooks/cart/useCreateCart';
 import useCreateCartItem from '@/hooks/cartItem/useCreateCartItem';
 import useGetProductById from '@/hooks/product/useGetProductById';
+import { formatRp } from '@/utils/Formatted';
 
 function ProductDetails() {
   const { id } = useParams();
@@ -80,7 +82,7 @@ function ProductDetails() {
 
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold">
-                  Rp. {productId?.price}
+                  Rp. {formatRp(productId?.price)}
                 </h3>
                 <Badge variant="outline" className="text-sm">
                   In Stock: {productId?.stock}
@@ -128,7 +130,7 @@ function ProductDetails() {
           <ProductItem />
         </div>
       </div>
-      <ProductReview />
+      <ProductReview productId={productId?.id} />
     </section>
   );
 }
