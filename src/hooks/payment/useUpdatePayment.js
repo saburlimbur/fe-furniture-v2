@@ -15,7 +15,7 @@ export default function useUpdatePayment() {
 
     onSuccess: () => {
       toast.success('Payment updated!');
-      queryClient.invalidateQueries(['payment']); // sama saja seperti refetch
+      queryClient.invalidateQueries({ queryKey: ['payments'] }); // sama saja seperti refetch
     },
     onError: error => {
       toast.error(error.message || 'Something went wrong');

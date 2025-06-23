@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable arrow-parens */
 /* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
@@ -39,6 +40,13 @@ AxiosInterceptor.interceptors.response.use(
 
       localStorage.removeItem('furniture_token');
       localStorage.removeItem('furniture_user');
+      localStorage.removeItem('cart_id');
+      localStorage.removeItem('cart_data');
+      localStorage.removeItem('address_data');
+      localStorage.removeItem('payment_data');
+      localStorage.removeItem('shipping_data');
+      localStorage.removeItem('order_data');
+      localStorage.removeItem('cart_item_data');
 
       toast.error('Unauthorized! Redirecting to login...');
 

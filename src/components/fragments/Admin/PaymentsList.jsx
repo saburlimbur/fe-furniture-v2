@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable react/button-has-type */
 import React from 'react';
@@ -28,6 +29,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import useGetAllPayments from '@/hooks/payment/useGetAllPayments';
+import useGetPaymentById from '@/hooks/payment/useGetPaymentById';
+import useUpdatePayment from '@/hooks/payment/useUpdatePayment';
 import { formatRp } from '@/utils/Formatted';
 
 function PaymentStatusDropdown({ status, onChange }) {
@@ -98,6 +101,8 @@ function getPaymentMethodIcon(method) {
 
 function PaymentsList() {
   const { allPayments, isLoading, isError } = useGetAllPayments();
+  const { updatePayment } = useUpdatePayment();
+  const { paymentId } = useGetPaymentById();
 
   if (isLoading) {
     return <div className="text-center py-8">Loading payments...</div>;
@@ -141,7 +146,13 @@ function PaymentsList() {
                 <PaymentStatusDropdown
                   status={payment.payment_status}
                   onChange={newStatus =>
-                    console.log(`Change payment ${payment.id} to`, newStatus)
+                    updatePayment({
+                      id: payment?.id,
+                      data: {
+                        payment_status: newStatus,
+                        payment_date: new Date().toISOString(),
+                      },
+                    })
                   }
                 />
               </TableCell>

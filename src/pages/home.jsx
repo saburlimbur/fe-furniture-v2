@@ -4,7 +4,6 @@ import Marquee from 'react-fast-marquee';
 
 import FaqSection from '@/components/template/FaqSection';
 
-import About from '../components/template/AboutSection';
 import Category from '../components/template/Category';
 import GallerySection from '../components/template/GallerySection';
 import Hero from '../components/template/HeroSection';

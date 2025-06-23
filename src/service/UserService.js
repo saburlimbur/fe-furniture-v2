@@ -1,6 +1,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
+import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 
 import AxiosInterceptor from './AxiosInterceptor';
@@ -17,7 +18,9 @@ export default class UserService {
       });
 
       const token = result.data.token;
-      localStorage.setItem('furniture_token', result.data.token);
+      // localStorage.setItem('furniture_token', result.data.token);
+
+      Cookies.set('furniture_token', token);
 
       const userData = jwtDecode(token);
       localStorage.setItem('furniture_user', JSON.stringify(userData));

@@ -1,6 +1,7 @@
 import { Toaster } from 'react-hot-toast';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import AppLayouts from './components/layouts/AppLayouts';
 import DashboardLayout from './components/layouts/DashboardLayout';
@@ -10,6 +11,7 @@ import Dashboard from './pages/admin/dashboard';
 import OrdersPage from './pages/admin/OrdersPage';
 import PaymentsPage from './pages/admin/PaymentsPage';
 import ProductsPage from './pages/admin/ProductsPage';
+import ShippingPage from './pages/admin/ShippingPage';
 import UsersPage from './pages/admin/UsersPage';
 import CartPage from './pages/cart';
 import CategoryDetails from './pages/category';
@@ -18,6 +20,7 @@ import LoginPage from './pages/login';
 import OrderPage from './pages/order';
 import ProductDetails from './pages/product/[params]';
 import ProductsPages from './pages/ProductsPages';
+import ProfilePage from './pages/profile';
 import RegisterPage from './pages/register';
 import checkRole from './utils/CheckRole';
 
@@ -59,6 +62,10 @@ const router = createBrowserRouter([
         path: 'orders',
         element: <OrderPage />,
       },
+      {
+        path: '/detail-profile',
+        element: <ProfilePage />,
+      },
     ],
   },
   {
@@ -90,6 +97,10 @@ const router = createBrowserRouter([
         element: <CategoryPage />,
       },
       {
+        path: 'shipping',
+        element: <ShippingPage />,
+      },
+      {
         path: 'checkouts',
         element: <CheckoutsPage />,
       },
@@ -110,6 +121,7 @@ function App() {
     <QueryClientProvider client={client}>
       <RouterProvider router={router} />
       <Toaster position="top-right" reverseOrder={false} />
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

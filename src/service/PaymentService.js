@@ -18,14 +18,17 @@ export default class PaymentService {
         amount,
       });
 
-      localStorage.setItem('payment_data', JSON.stringify(result.data?.data));
+      const responseData = result.data?.data || result.data;
 
-      return result.data;
+      localStorage.setItem('payment_data', JSON.stringify(responseData));
+
+      return responseData;
     } catch (error) {
+      console.error('Error creating payment:', error);
       if (error.response && error.response.data) {
         throw new Error(error.response.data.message);
       }
-      throw error;
+      throw new Error('Unexpected error occurred');
     }
   }
 
@@ -49,6 +52,19 @@ export default class PaymentService {
       const result = await AxiosInterceptor.put(`/payment/${id}`, data);
 
       localStorage.setItem('payment_data', JSON.stringify(result.data?.data));
+
+      return result.data?.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw new Error(error.response.data.message);
+      }
+      throw error;
+    }
+  }
+
+  static async getPaymentById(id) {
+    try {
+      const result = await AxiosInterceptor.get(`/payment/${id}`);
 
       return result.data?.data;
     } catch (error) {

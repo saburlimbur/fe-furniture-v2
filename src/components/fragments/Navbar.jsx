@@ -39,6 +39,10 @@ function Navbar() {
     localStorage.removeItem('cart_id');
     localStorage.removeItem('cart_data');
     localStorage.removeItem('address_data');
+    localStorage.removeItem('payment_data');
+    localStorage.removeItem('shipping_data');
+    localStorage.removeItem('order_data');
+    localStorage.removeItem('cart_item_data');
 
     setTimeout(() => {
       toast.success('Logout Successfully');
@@ -77,7 +81,9 @@ function Navbar() {
                     </span>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/detail-profile')}>
+                    Profile
+                  </DropdownMenuItem>
                   <DropdownMenuItem>Billing</DropdownMenuItem>
                   <DropdownMenuItem>Settings</DropdownMenuItem>
                   <DropdownMenuItem>New Team</DropdownMenuItem>

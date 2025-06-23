@@ -1,7 +1,7 @@
 import React from 'react';
 import { Bell, Filter, Settings } from 'lucide-react';
 
-import CheckoutList from '@/components/fragments/Admin/CheckoutList';
+import ShippingsList from '@/components/fragments/Admin/ShippingsList';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -36,12 +36,12 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import useGetAllCheckouts from '@/hooks/checkouts/useGetAllCheckouts';
+import useGetAllShipping from '@/hooks/shipping/useGetAllShippings';
 
-function CheckoutsPage() {
-  const { allCheckouts } = useGetAllCheckouts();
+function ShippingPage() {
+  const { listShippings } = useGetAllShipping();
 
-  console.log('allCheckouts:', allCheckouts);
+  console.log('listShippings', listShippings);
 
   return (
     <section>
@@ -60,7 +60,7 @@ function CheckoutsPage() {
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
                   <BreadcrumbPage className="font-medium">
-                    Payment List
+                    Shippings List
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
@@ -83,7 +83,7 @@ function CheckoutsPage() {
               <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-1.5">
                   <CardTitle className="text-2xl font-bold">
-                    Payment List
+                    Shipping List
                   </CardTitle>
                   <CardDescription className="text-muted-foreground">
                     Manage your users and their roles here.
@@ -126,8 +126,8 @@ function CheckoutsPage() {
               </div>
             </CardHeader>
 
-            <div className="border rounded-lg mx-6 p-2">
-              <CheckoutList />
+            <div className="border rounded-lg mx-6 p-2 overflow-visible">
+              <ShippingsList />
             </div>
 
             <Pagination>
@@ -161,4 +161,4 @@ function CheckoutsPage() {
   );
 }
 
-export default CheckoutsPage;
+export default ShippingPage;

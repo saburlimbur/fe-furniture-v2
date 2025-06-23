@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/no-unstable-nested-components */
@@ -19,15 +20,27 @@ import {
   User,
 } from 'lucide-react';
 
+import InfoRow from '@/components/elements/InfoRow';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { CHECKOUT_STATUS } from '@/constants/checkoutStatus';
-import { getOrderStatusColor } from '@/constants/orderStatus';
-import { formatStatus, getStatusColor } from '@/constants/paymentStatus';
-import { getShippingStatusColor } from '@/constants/shippingStatus';
+import { getOrderStatusColor, ORDER_STATUS } from '@/constants/orderStatus';
+import PAYMENT_STATUS, {
+  formatStatus,
+  getStatusColor,
+} from '@/constants/paymentStatus';
+import {
+  getShippingStatusColor,
+  SHIPPING_STATUS,
+} from '@/constants/shippingStatus';
 import useCreateCheckout from '@/hooks/checkouts/useCreateCheckout';
+import useUpdateOrder from '@/hooks/order/useUpdateOrder';
+import useUpdatePayment from '@/hooks/payment/useUpdatePayment';
+import useUpdateShipping from '@/hooks/shipping/useUpdateShipping';
 import { formatDate, formatRp } from '@/utils/Formatted';
+
+import SectionTitle from '../SectionTitle';
 
 function CheckoutInformations() {
   const userData = JSON.parse(localStorage.getItem('furniture_user'));
@@ -38,6 +51,9 @@ function CheckoutInformations() {
   const orderDataStorage = JSON.parse(localStorage.getItem('order_data'));
 
   const { createCheckoutMutation, isLoading } = useCreateCheckout();
+  const { updateOrder } = useUpdateOrder();
+  const { updatePayment } = useUpdatePayment();
+  const { updateShipping } = useUpdateShipping();
 
   const removeTransactionStorage = () => {
     localStorage.removeItem('address_data');
@@ -53,13 +69,11 @@ function CheckoutInformations() {
       await createCheckoutMutation({
         user_id: Number(userData?.id),
         cart_id: cartData?.id,
-
-        // address: addressData,
         address_id: addressData?.id,
 
         orderData: {
           total_price: orderDataStorage?.total_price,
-          status: orderDataStorage?.status,
+          status: ORDER_STATUS.DELIVERED,
           created_at: orderDataStorage?.created_at
             ? new Date(orderDataStorage?.created_at)
             : new Date(),
@@ -70,27 +84,15 @@ function CheckoutInformations() {
 
         paymentData: {
           payment_method: paymentDataStorage?.payment_method,
-          payment_status: paymentDataStorage?.payment_status,
-          payment_date: paymentDataStorage?.payment_date,
-          amount: paymentDataStorage?.amount,
-          created_at: paymentDataStorage?.created_at
-            ? new Date(paymentDataStorage?.created_at)
-            : new Date(),
-          updated_at: paymentDataStorage?.updated_at
-            ? new Date(paymentDataStorage?.updated_at)
-            : new Date(),
+          payment_status: PAYMENT_STATUS.Completed,
+          payment_date: new Date(),
+          amount: orderDataStorage?.total_price,
         },
 
         shippingData: {
           shipping_cost: shippingDataStorage?.shipping_cost,
-          shipping_date: shippingDataStorage?.shipping_date,
-          status: shippingDataStorage?.status,
-          created_at: shippingDataStorage?.created_at
-            ? new Date(shippingDataStorage?.created_at)
-            : new Date(),
-          updated_at: shippingDataStorage?.updated_at
-            ? new Date(shippingDataStorage?.updated_at)
-            : new Date(),
+          shipping_date: new Date(),
+          status: SHIPPING_STATUS.Delivered,
         },
 
         checkoutData: {
@@ -102,11 +104,11 @@ function CheckoutInformations() {
       });
 
       toast.success('Checkout created successfully!');
-      removeTransactionStorage();
+      // removeTransactionStorage();
 
-      setTimeout(() => {
-        window.location.href = '/';
-      }, 1000);
+      // setTimeout(() => {
+      //   window.location.href = '/';
+      // }, 1000);
     } catch (error) {
       console.error('error:', error.message);
       throw new Error();
@@ -119,23 +121,6 @@ function CheckoutInformations() {
     >
       {formatStatus(status)}
     </span>
-  );
-
-  const InfoRow = ({ label, value }) => (
-    <div className="flex justify-between text-sm">
-      <span className="text-gray-500">{label}</span>
-      <span className="font-medium text-black">{value}</span>
-    </div>
-  );
-
-  const SectionTitle = ({ icon: Icon, title, subtitle }) => (
-    <CardHeader>
-      <h2 className="text-xl font-semibold flex items-center gap-2">
-        <Icon className="w-5 h-5" />
-        {title}
-      </h2>
-      <p className="text-sm text-gray-500">{subtitle}</p>
-    </CardHeader>
   );
 
   return (
@@ -155,14 +140,17 @@ function CheckoutInformations() {
             <Separator />
             <CardContent className="space-y-4 pt-6">
               <InfoRow
+                className="flex justify-between text-sm"
                 label="Shipping Cost"
                 value={formatRp(shippingDataStorage?.shipping_cost)}
               />
               <InfoRow
+                className="flex justify-between text-sm"
                 label="Shipping Date"
                 value={formatDate(shippingDataStorage?.shipping_date)}
               />
               <InfoRow
+                className="flex justify-between text-sm"
                 label="Status"
                 value={
                   <Badge
@@ -175,10 +163,12 @@ function CheckoutInformations() {
               />
               <Separator />
               <InfoRow
+                className="flex justify-between text-sm"
                 label="Created At"
                 value={formatDate(shippingDataStorage?.created_at)}
               />
               <InfoRow
+                className="flex justify-between text-sm"
                 label="Updated At"
                 value={formatDate(shippingDataStorage?.updated_at)}
               />

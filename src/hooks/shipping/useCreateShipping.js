@@ -24,8 +24,8 @@ export default function useCreateShipping() {
       }),
 
     onSuccess: () => {
-      queryClient.invalidateQueries(['shipping']);
-      toast.success('Cart created successfully!');
+      queryClient.invalidateQueries(['allShipping']);
+      toast.success('Shipping created successfully!');
     },
     onError: error => {
       toast.error(error.message || 'Something went wrong');

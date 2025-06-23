@@ -19,7 +19,7 @@ export default function useCreateCheckout() {
     },
 
     onSuccess: () => {
-      queryClient.invalidateQueries(['checkout']);
+      queryClient.invalidateQueries(['checkouts']);
       toast.success('Checkout created successfully!');
     },
     onError: error => {

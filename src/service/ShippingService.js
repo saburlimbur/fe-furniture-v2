@@ -45,4 +45,32 @@ export default class ShippingService {
       throw error; // fallback error
     }
   }
+
+  static async updateShipping({ id, payload }) {
+    try {
+      const result = await AxiosInterceptor.put(`/shipping${id}`, payload);
+
+      const responseData = result.data?.data || result.data;
+
+      localStorage.setItem('shipping_data', JSON.stringify(responseData));
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw new Error(error.response.data.message);
+      }
+      throw error;
+    }
+  }
+
+  static async getAllShippings() {
+    try {
+      const result = await AxiosInterceptor.get('/shippings');
+
+      return result.data?.query ?? []; // fallback array kosong
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw new Error(error.response.data.message);
+      }
+      throw error;
+    }
+  }
 }

@@ -9,14 +9,15 @@ import {
   CreditCard,
   FileText,
   Home,
+  LayoutDashboard,
   LogOut,
-  Package,
-  PieChart,
+  PackageCheck,
   Plus,
   ReceiptText,
   Search,
   Settings,
   TrendingUp,
+  Truck,
   UserCheck,
   Users,
 } from 'lucide-react';
@@ -73,14 +74,14 @@ const managementItems = [
   {
     title: 'Products',
     url: '/dashboard/products',
-    icon: Package,
+    icon: PackageCheck,
     badge: null,
     isActive: false,
   },
   {
     title: 'Category',
     url: '/dashboard/category',
-    icon: PieChart,
+    icon: LayoutDashboard,
     badge: null,
     isActive: false,
   },
@@ -99,6 +100,13 @@ const managementItems = [
     isActive: false,
   },
   {
+    title: 'Shipping',
+    url: '/dashboard/shipping',
+    icon: Truck,
+    badge: null,
+    isActive: false,
+  },
+  {
     title: 'Checkout',
     url: '/dashboard/checkouts',
     icon: ReceiptText,
@@ -110,7 +118,7 @@ const managementItems = [
 const systemItems = [
   {
     title: 'Settings',
-    url: '/settings',
+    url: '/dashboard',
     icon: Settings,
     badge: null,
     isActive: false,
